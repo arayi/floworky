@@ -13,6 +13,7 @@ const protectRoute = require( './auth/protectRoute' )
 const routes = require( './routes/index' )
 const accounts = require( './routes/accounts' )
 const items = require( './routes/items' )
+const tags = require( './routes/tags' )
 
 const app = express()
 
@@ -41,6 +42,7 @@ app.use( passport.session() )
 app.use( '/', routes )
 app.use( '/accounts', accounts )
 app.use( '/items', protectRoute, items )
+app.use( '/tags', tags )
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {
