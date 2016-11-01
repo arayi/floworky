@@ -4,6 +4,7 @@ const router = express.Router()
 const passport = require( '../auth/passport' )
 const register = require( './accounts/register' )
 const { testForCode, whereClause } = require( './accounts/verify_user' )
+const { createRootItem } = require( './items/item_response' )
 const validateEmail = require( '../src/mail/validate_email' )
 
 
@@ -17,11 +18,12 @@ router.get( '/register', ( request, response ) => {
 })
 
 router.post( '/register', ( request, response ) => {
-  const { User } = request.app.get( 'models' )
+  const { User, Item } = request.app.get( 'models' )
   const { email, password } =request.body
 
   validateEmail( email )
     .then( validEmail => register( User, validEmail, password ) )
+    .then( user => createRootItem(Item) )
     .then( user => response.redirect( '/accounts/verify' ))
     .catch( error => response.render( 'accounts/register', { error, email } ) )
 })
