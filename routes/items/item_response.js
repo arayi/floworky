@@ -6,6 +6,16 @@ const allItemsQuery = user_id => (
   { order: [['createdAt', 'ASC']], where: { user_id }, FETCH_ATTRIBUTES }
 )
 
+const createRootItem = Item => user => {
+  return Item.create({
+    is_root: true,
+    parent_id: 0,
+    title: 'Home',
+    description: 'Welcome to Floworky',
+    user_id: user.id
+  }).then( result => user )
+}
+
 const filteredItemsQuery = (Item, query, user_id) => ({ items, tree }) => {
   const where = Object.assign( {}, whereSearch( query ), whereCompleted( query), { user_id } )
 
@@ -40,4 +50,4 @@ const whereCompleted = query => {
 const respondWithItems = ( user, callback ) => ({ items, tree }) =>
   callback({ user, items, tree: tree.children() })
 
-module.exports = { allItemsQuery, filteredItemsQuery, respondWithItems }
+module.exports = { allItemsQuery, createRootItem, filteredItemsQuery, respondWithItems }

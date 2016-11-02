@@ -17,11 +17,13 @@ router.get( '/register', ( request, response ) => {
 })
 
 router.post( '/register', ( request, response ) => {
-  const { User } = request.app.get( 'models' )
+  const { User, Item } = request.app.get( 'models' )
   const { email, password } =request.body
 
+  console.log(`user: ${User} item: ${Item}`)
+
   validateEmail( email )
-    .then( validEmail => register( User, validEmail, password ) )
+    .then( validEmail => register( User, Item, validEmail, password ) )
     .then( user => response.redirect( '/accounts/verify' ))
     .catch( error => response.render( 'accounts/register', { error, email } ) )
 })

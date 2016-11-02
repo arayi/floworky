@@ -4,6 +4,7 @@ const VALID_PARAMETERS = [ 'completed', 'title', 'description' ]
 
 module.exports = function(sequelize, DataTypes) {
   var Item = sequelize.define('Item', {
+    is_root: DataTypes.BOOLEAN,
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     completed: DataTypes.BOOLEAN,
